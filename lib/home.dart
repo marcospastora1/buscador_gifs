@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:gifs/controller.dart';
 import 'package:gifs/gif_page.dart';
 import 'package:share/share.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
@@ -57,15 +58,13 @@ class HomePage extends GetView<HomeController> {
                   ),
                   itemCount: controller.getCount(controller.gifMap['data']),
                   itemBuilder: (context, index) {
-                    if (controller.search.value.isEmpty ||
-                        index < controller.gifMap['data'].length) {
+                    if (controller.search.value.isEmpty ||index < controller.gifMap['data'].length) {
                       return GestureDetector(
                         onLongPress: () => Share.share(controller.gifMap['data'][index]['images']['fixed_height']['url']),
-                        onTap: () => Get.to(() => GifPage(
-                              gifData: controller.gifMap['data'][index],
-                            )),
-                        child: Image.network(
-                          '${controller.gifMap['data'][index]['images']['fixed_height']['url']}',
+                        onTap: () => Get.to(() => GifPage(gifData: controller.gifMap['data'][index])),
+                        child: FadeInImage.memoryNetwork(
+                          placeholder: kTransparentImage,
+                          image: '${controller.gifMap['data'][index]['images']['fixed_height']['url']}',
                           height: 300,
                           fit: BoxFit.cover,
                         ),
