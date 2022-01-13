@@ -35,44 +35,51 @@ class HomePage extends GetView<HomeController> {
             ),
           ),
           Flexible(
-            child: Obx(() {
-              if (controller.load.value) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
-                );
-              } else if (controller.statusError.value) {
-                return const Center(
-                  child: Center(
-                    child: Text('Falhou:('),
-                  ),
-                );
-              } else {
-                return GridView.builder(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                  itemCount: controller.getCount(controller.gifMap['data']),
-                  itemBuilder: (context, index) {
-                    if (controller.search.value.isEmpty ||index < controller.gifMap['data'].length) {
-                      return GestureDetector(
-                        onLongPress: () => Share.share(controller.gifMap['data'][index]['images']['fixed_height']['url']),
-                        onTap: () => Get.to(() => GifPage(gifData: controller.gifMap['data'][index])),
-                        child: FadeInImage.memoryNetwork(
-                          placeholder: kTransparentImage,
-                          image: '${controller.gifMap['data'][index]['images']['fixed_height']['url']}',
-                          height: 300,
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    } else {
-                      return GestureDetector(
-                        onTap: () => controller.offset.value += 19,
-                        child: Column(
+            child: Obx(
+              () {
+                if (controller.load.value) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  );
+                } else if (controller.statusError.value) {
+                  return const Center(
+                    child: Center(
+                      child: Text('Falhou:('),
+                    ),
+                  );
+                } else {
+                  return GridView.builder(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount: controller.getCount(controller.gifMap['data']),
+                    itemBuilder: (context, index) {
+                      if (controller.search.value.isEmpty ||
+                          index < controller.gifMap['data'].length) {
+                        return GestureDetector(
+                          onLongPress: () => Share.share(
+                              controller.gifMap['data'][index]['images']
+                                  ['fixed_height']['url']),
+                          onTap: () => Get.to(() => GifPage(
+                              gifData: controller.gifMap['data'][index])),
+                          child: FadeInImage.memoryNetwork(
+                            placeholder: kTransparentImage,
+                            image:
+                                '${controller.gifMap['data'][index]['images']['fixed_height']['url']}',
+                            height: 300,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      } else {
+                        return GestureDetector(
+                          onTap: () => controller.offset.value += 19,
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
                               Icon(
@@ -83,15 +90,19 @@ class HomePage extends GetView<HomeController> {
                               Text(
                                 'Carregar mais...',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 22),
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                ),
                               )
-                            ]),
-                      );
-                    }
-                  },
-                );
-              }
-            }),
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
